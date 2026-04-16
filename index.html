@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>発注管理システム 使い方ガイド</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif; background: #f5f7fa; color: #333; line-height: 1.9; font-size: 16px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; }
+
+        /* ========== ヘッダー ========== */
+        .hero {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            padding: 48px 24px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .hero p { font-size: 15px; opacity: 0.85; }
+
+        /* ========== クイックスタート ========== */
+        .quickstart {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border: 2px solid #4f46e5;
+        }
+        .quickstart-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #4f46e5;
+            margin-bottom: 4px;
+        }
+        .quickstart-sub {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 24px;
+        }
+        .quick-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .quick-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 0;
+        }
+        .quick-step + .quick-step {
+            border-top: 1px dashed #e5e7eb;
+        }
+        .qs-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .qs-icon-blue { background: #eef2ff; }
+        .qs-icon-green { background: #ecfdf5; }
+        .qs-icon-orange { background: #fff7ed; }
+        .qs-content { flex: 1; }
+        .qs-content strong { font-size: 17px; display: block; margin-bottom: 2px; }
+        .qs-content p { font-size: 14px; color: #666; margin: 0; }
+
+        /* ========== 目次 ========== */
+        .toc {
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .toc-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; }
+        .toc a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            color: #4f46e5;
+            text-decoration: none;
+            padding: 6px 0;
+            transition: color 0.15s;
+        }
+        .toc a:hover { color: #7c3aed; text-decoration: underline; }
+        .toc-icon { font-size: 18px; }
+
+        /* ========== セクション ========== */
+        .section {
+            margin-bottom: 48px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #e5e7eb;
+        }
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .section-icon-blue { background: #eef2ff; }
+        .section-icon-green { background: #ecfdf5; }
+        .section-icon-purple { background: #f5f3ff; }
+        .section-icon-orange { background: #fff7ed; }
+        .section-icon-red { background: #fef2f2; }
+        .section-header h2 { font-size: 22px; font-weight: 800; color: #1a1a1a; margin: 0; }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 32px 0 16px;
+            padding-left: 12px;
+            border-left: 4px solid #4f46e5;
+        }
+
+        /* ========== カード ========== */
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-title-icon { font-size: 22px; }
+        .card p { margin-bottom: 10px; }
+        .card ul, .card ol { padding-left: 24px; margin-bottom: 12px; }
+        .card li { margin-bottom: 8px; }
+
+        /* ========== フロー図 ========== */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 20px 0;
+        }
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .flow-auto {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+        }
+        .flow-you {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+        }
+        .flow-icon { font-size: 20px; flex-shrink: 0; }
+        .flow-arrow { text-align: center; padding: 4px 0; font-size: 18px; color: #bbb; }
+        .flow-label {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+        .label-auto { background: #d1fae5; color: #065f46; }
+        .label-you { background: #ffedd5; color: #9a3412; }
+
+        /* ========== ステップ ========== */
+        .steps { margin: 16px 0; }
+        .step {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .step-num {
+            width: 36px;
+            height: 36px;
+            background: #4f46e5;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .step-content {
+            flex: 1;
+            padding-top: 6px;
+        }
+        .step-content p { margin-bottom: 6px; }
+
+        /* ========== ボックス系 ========== */
+        .box {
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-size: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .box-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+        .box-content { flex: 1; }
+        .box-content p { margin-bottom: 4px; }
+
+        .box-info { background: #eef2ff; border: 1px solid #c7d2fe; }
+        .box-warn { background: #fffbeb; border: 1px solid #fde68a; }
+        .box-success { background: #ecfdf5; border: 1px solid #a7f3d0; }
+        .box-error { background: #fef2f2; border: 1px solid #fecaca; }
+
+        /* ========== 画面説明 ========== */
+        .screen-preview {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .screen-bar {
+            background: #e2e8f0;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .screen-bar-dot {
+            width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+        }
+        .screen-body {
+            padding: 20px;
+            font-size: 14px;
+        }
+        .screen-body .mock-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #fff;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        .mock-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .mock-green { background: #d1fae5; color: #065f46; }
+        .mock-orange { background: #ffedd5; color: #9a3412; }
+        .mock-blue { background: #dbeafe; color: #1e40af; }
+        .mock-btn {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .mock-btn-blue { background: #4f46e5; }
+        .mock-btn-green { background: #16a34a; }
+
+        /* ========== FAQ ========== */
+        .faq-item {
+            background: #fff;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+        .faq-q {
+            padding: 18px 24px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            user-select: none;
+            transition: background 0.15s;
+        }
+        .faq-q:hover { background: #f8fafc; }
+        .faq-q-icon { font-size: 20px; flex-shrink: 0; }
+        .faq-q-arrow {
+            margin-left: auto;
+            font-size: 14px;
+            color: #999;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        .faq-q.open .faq-q-arrow { transform: rotate(180deg); }
+        .faq-a {
+            padding: 0 24px 0 56px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        .faq-a.open {
+            padding: 0 24px 24px 56px;
+            max-height: 800px;
+        }
+        .faq-a p { margin-bottom: 8px; font-size: 15px; }
+        .faq-a ol, .faq-a ul { padding-left: 20px; margin-bottom: 8px; }
+        .faq-a li { margin-bottom: 6px; font-size: 15px; }
+
+        /* ========== 緊急カード ========== */
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .emergency-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+        }
+        .emergency-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .emergency-card li { margin-bottom: 8px; font-size: 14px; }
+        .emergency-card ul { padding-left: 20px; }
+        .ec-red { border-top: 4px solid #ef4444; }
+        .ec-green { border-top: 4px solid #22c55e; }
+
+        .contact-bar {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            border-radius: 14px;
+            padding: 24px 32px;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .contact-bar-icon { font-size: 36px; }
+        .contact-bar-text strong { font-size: 17px; display: block; margin-bottom: 2px; }
+        .contact-bar-text p { font-size: 14px; opacity: 0.85; margin: 0; }
+
+        /* ========== レスポンシブ ========== */
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 22px; }
+            .toc-grid { grid-template-columns: 1fr; }
+            .emergency-grid { grid-template-columns: 1fr; }
+            .quickstart { padding: 24px 20px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== ヘッダー ==================== -->
+<div class="hero">
+    <h1>発注管理システム 使い方ガイド</h1>
+    <p>リバレイト・カラーズ合同会社 様</p>
+</div>
+
+<div class="container">
+
+<!-- ==================== クイックスタート ==================== -->
+<div class="quickstart">
+    <div class="quickstart-title">全自動モードなら、やることはほぼゼロ</div>
+    <div class="quickstart-sub">メール取得 → 分類 → 解析 → スプレッドシート反映まですべて自動。<br>あなたは「問題がある商品だけ」直すだけでOKです。</div>
+
+    <div class="quick-steps">
+        <div class="quick-step">
+            <div class="qs-icon qs-icon-green">&#10003;</div>
+            <div class="qs-content">
+                <strong>完全な商品データ → 自動でスプレッドシート・カレンダーに反映</strong>
+                <p>JANコード・価格・発売日が揃っている商品は、何もしなくても自動で同期されます</p>
+            </div>
+        </div>
+        <div class="quick-step">
+            <div class="qs-icon qs-icon-orange">!</div>
+            <div class="qs-content">
+                <strong>情報が不足している商品だけ → Discordで通知が届く</strong>
+                <p>JANコードがない等の問題がある商品だけ管理画面で修正してください</p>
+            </div>
+        </div>
+        <div class="quick-step">
+            <div class="qs-icon qs-icon-blue">&#x1F9E0;</div>
+            <div class="qs-content">
+                <strong>修正を「学習」させれば、次回から自動で直る</strong>
+                <p>同じ問題は2度起きません。使うほど手間が減っていきます</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== 目次 ==================== -->
+<div class="toc">
+    <div class="toc-title">このガイドの内容</div>
+    <div class="toc-grid">
+        <a href="#flow"><span class="toc-icon">🔄</span> システムの全体像</a>
+        <a href="#dashboard"><span class="toc-icon">📊</span> ダッシュボードの見方</a>
+        <a href="#products"><span class="toc-icon">📦</span> 商品の確認・編集</a>
+        <a href="#sync"><span class="toc-icon">📤</span> スプレッドシート・カレンダー同期</a>
+        <a href="#learning"><span class="toc-icon">🧠</span> 学習機能（自動修正）</a>
+        <a href="#settings"><span class="toc-icon">⚙️</span> 設定の変更</a>
+        <a href="#trouble"><span class="toc-icon">🔧</span> 困ったときは</a>
+        <a href="#emergency"><span class="toc-icon">🆘</span> 緊急時の連絡先</a>
+    </div>
+</div>
+
+
+<!-- ==================== 1. システムの全体像 ==================== -->
+<div class="section" id="flow">
+    <div class="section-header">
+        <div class="section-icon section-icon-blue">🔄</div>
+        <h2>システムの全体像</h2>
+    </div>
+
+    <div class="card">
+        <p style="font-size:17px; margin-bottom:20px;">仕入先からのメールが届いてから、スプレッドシートに反映されるまでの流れです。<br><strong>全自動モードでは、ほぼすべてが緑（自動）</strong>になります。</p>
+
+        <div class="flow">
+            <div class="flow-item flow-auto">
+                <span class="flow-icon">📧</span>
+                <span class="flow-label label-auto">自動</span>
+                5分おきにGmailをチェックして、新着メールを取得します
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-item flow-auto">
+                <span class="flow-icon">🏷️</span>
+                <span class="flow-label label-auto">自動</span>
+                送信元アドレスから、どの取引先のメールか自動判定します
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-item flow-auto">
+                <span class="flow-icon">📎</span>
+                <span class="flow-label label-auto">自動</span>
+                添付ファイル（Excel / PDF / HTML）から商品情報を自動で読み取ります
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-item flow-auto">
+                <span class="flow-icon">🔍</span>
+                <span class="flow-label label-auto">自動</span>
+                データが完全な商品 → そのまま自動で確認済みに
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-item flow-auto">
+                <span class="flow-icon">📤</span>
+                <span class="flow-label label-auto">自動</span>
+                スプレッドシート・カレンダーに自動で反映されます
+            </div>
+        </div>
+
+        <div class="box box-warn" style="margin-top:16px;">
+            <span class="box-icon">⚠️</span>
+            <div class="box-content">
+                <p><strong>情報が不足している商品（JANコードなし等）だけ、Discordで通知が届きます。</strong><br>
+                その場合だけ管理画面を開いて修正してください。修正を「学習」させれば次回から自動で直ります。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== 2. ダッシュボード ==================== -->
+<div class="section" id="dashboard">
+    <div class="section-header">
+        <div class="section-icon section-icon-blue">📊</div>
+        <h2>ダッシュボードの見方</h2>
+    </div>
+
+    <div class="card">
+        <p>管理画面を開くと、ダッシュボードに<strong>「今あなたがやるべきこと」だけ</strong>が表示されます。<br>問題がなければ「対応が必要なものはありません」と表示されます。</p>
+
+        <div class="screen-preview">
+            <div class="screen-bar">
+                <span class="screen-bar-dot" style="background:#ff5f56;"></span>
+                <span class="screen-bar-dot" style="background:#ffbd2e;"></span>
+                <span class="screen-bar-dot" style="background:#27c93f;"></span>
+                &nbsp; http://localhost:8080
+            </div>
+            <div class="screen-body" style="font-size:13px;">
+                <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:14px 16px; margin-bottom:10px;">
+                    <div style="font-weight:700; color:#b91c1c; margin-bottom:6px;">&#x1F4E7; 分類できなかったメール <span style="background:#fee2e2; padding:1px 8px; border-radius:10px; font-size:11px;">2件</span></div>
+                    <div style="color:#888; font-size:12px;">送信元が取引先に登録されていません</div>
+                    <div style="margin-top:6px; padding:6px 10px; background:#fff; border-radius:6px; border:1px solid #eee; display:flex; align-items:center; justify-content:space-between;">
+                        <div>
+                            <span style="color:#333;">「4月度 新商品のご案内」</span><br>
+                            <span style="color:#aaa; font-size:11px;">送信元: info@new-supplier.jp → <span style="color:#b91c1c;">取引先不明</span></span>
+                        </div>
+                        <span style="background:#4f46e5; color:#fff; padding:2px 10px; border-radius:10px; font-size:11px; white-space:nowrap;">Gmailで開く</span>
+                    </div>
+                </div>
+                <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:14px 16px; margin-bottom:10px;">
+                    <div style="font-weight:700; color:#c2410c; margin-bottom:6px;">&#x26A0;&#xFE0F; 情報が不足している商品 <span style="background:#ffedd5; padding:1px 8px; border-radius:10px; font-size:11px;">3件</span></div>
+                    <div style="display:flex; gap:6px; margin-bottom:6px;">
+                        <span style="background:#ffedd5; color:#c2410c; padding:1px 8px; border-radius:4px; font-size:11px;">JANコードなし: 2件</span>
+                        <span style="background:#ffedd5; color:#c2410c; padding:1px 8px; border-radius:4px; font-size:11px;">価格なし: 1件</span>
+                    </div>
+                    <div style="padding:6px 10px; background:#fff; border-radius:6px; border:1px solid #eee; display:flex; align-items:center; justify-content:space-between;">
+                        <div>
+                            <span style="color:#333;">ドラゴンボール フィギュア 限定版</span>
+                            <span style="background:#ffedd5; color:#c2410c; padding:0 6px; border-radius:8px; font-size:10px; margin-left:6px;">JANコードなし</span>
+                        </div>
+                        <span style="background:#4f46e5; color:#fff; padding:2px 10px; border-radius:10px; font-size:11px; white-space:nowrap;">Gmailで開く</span>
+                    </div>
+                </div>
+                <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:14px 16px;">
+                    <div style="font-weight:700; color:#1d4ed8; margin-bottom:6px;">&#x23F0; 発注締切が近い商品 <span style="background:#dbeafe; padding:1px 8px; border-radius:10px; font-size:11px;">2件</span></div>
+                    <div style="padding:6px 10px; background:#fff; border-radius:6px; border:1px solid #eee; display:flex; align-items:center; justify-content:space-between;">
+                        <div>
+                            <span style="color:#333;">ワンピース カードゲーム ブースターパック</span><br>
+                            <span style="color:#aaa; font-size:11px;">バンダイ / 締切: 2026/04/17</span>
+                        </div>
+                        <span style="background:#fef2f2; color:#b91c1c; padding:2px 10px; border-radius:10px; font-size:11px; font-weight:700;">明日</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="border:none; padding:0; margin:24px 0 12px; font-size:16px;">表示される内容は3種類</h3>
+
+        <div style="display:grid; gap:12px;">
+            <div class="box box-error" style="margin:0;">
+                <span class="box-icon">&#x1F4E7;</span>
+                <div class="box-content">
+                    <p><strong>1. 分類できなかったメール（赤）</strong></p>
+                    <p style="font-size:14px;">送信元が登録されている取引先と一致しなかったメール。<br>
+                    → 「設定」から取引先を追加するか、対象外のメールなら無視してOK<br>
+                    → <strong>「Gmailで開く」ボタンをタップすると、元のメールがGmailで直接開きます</strong></p>
+                </div>
+            </div>
+            <div class="box box-warn" style="margin:0;">
+                <span class="box-icon">&#x26A0;&#xFE0F;</span>
+                <div class="box-content">
+                    <p><strong>2. 情報が不足している商品（オレンジ）</strong></p>
+                    <p style="font-size:14px;">JANコード・価格・発売日のいずれかが抽出できなかった商品。<br>
+                    どの情報が不足しているかも表示されるので、何を直せばいいか一目でわかります。<br>
+                    → <strong>「Gmailで開く」ボタンで元のメールを確認しながら、不足情報を入力できます</strong><br>
+                    → 「商品」画面で不足情報を入力（「学習」にチェックで次回から自動補完）</p>
+                </div>
+            </div>
+            <div class="box box-info" style="margin:0;">
+                <span class="box-icon">&#x23F0;</span>
+                <div class="box-content">
+                    <p><strong>3. 発注締切が近い商品（青）</strong></p>
+                    <p style="font-size:14px;">7日以内に発注締切を迎える商品が表示されます。<br>
+                    「今日」「明日」「あと○日」と表示されるので、発注し忘れを防げます。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-success" style="margin-top:16px;">
+            <span class="box-icon">&#x2705;</span>
+            <div class="box-content"><p><strong>問題がなければ「対応が必要なものはありません」と表示されます。</strong>何も表示されなければ、すべて正常に自動処理されています。</p></div>
+        </div>
+
+        <div class="box box-info" style="margin-top:12px;">
+            <span class="box-icon">&#x1F4CA;</span>
+            <div class="box-content"><p>ダッシュボード下部には、メール総数・取引先一致数・未処理メール・未確認商品の統計も常に表示されます。</p></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== 3. 商品の確認・編集 ==================== -->
+<div class="section" id="products">
+    <div class="section-header">
+        <div class="section-icon section-icon-green">📦</div>
+        <h2>商品の確認・編集</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">📋</span> 商品一覧画面</div>
+        <p>ナビバーの「商品」をクリックすると、自動解析された商品の一覧が表示されます。</p>
+
+        <div class="screen-preview">
+            <div class="screen-bar">
+                <span class="screen-bar-dot" style="background:#ff5f56;"></span>
+                <span class="screen-bar-dot" style="background:#ffbd2e;"></span>
+                <span class="screen-bar-dot" style="background:#27c93f;"></span>
+                &nbsp; 商品一覧
+            </div>
+            <div class="screen-body">
+                <div class="mock-row">
+                    <span style="font-size:13px; width:120px;">4549660123456</span>
+                    <span style="font-size:13px; flex:1;">ワンピース カードゲーム ブースターパック</span>
+                    <span class="mock-badge mock-green">確認済み</span>
+                </div>
+                <div class="mock-row" style="background:#fff7ed; border-color:#fed7aa;">
+                    <span style="font-size:13px; width:120px; color:#ea580c;">⚠ JANなし</span>
+                    <span style="font-size:13px; flex:1;">ドラゴンボール フィギュア 限定版</span>
+                    <span class="mock-badge mock-orange">要修正</span>
+                </div>
+                <div class="mock-row">
+                    <span style="font-size:13px; width:120px;">4902370547214</span>
+                    <span style="font-size:13px; flex:1;">ポケモンカード 拡張パック</span>
+                    <span class="mock-badge mock-blue">未確認</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-warn">
+            <span class="box-icon">⚠️</span>
+            <div class="box-content">
+                <p><strong>オレンジ色の行 = 情報が不完全な商品です</strong></p>
+                <p>JANコードがない、価格がない、発売日がない等。クリックして修正してください。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">✏️</span> 商品を編集するには</div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <p><strong>商品の行をクリック</strong></p>
+                    <p style="color:#666; font-size:14px;">編集画面（モーダル）が開きます</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <p><strong>必要な項目を修正する</strong></p>
+                    <p style="color:#666; font-size:14px;">JANコード、商品名、上代（定価）、掛率、発売日、単位など</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <p><strong>同じミスが今後も起きそうなら「学習」にチェック</strong></p>
+                    <p style="color:#666; font-size:14px;">「この修正を学習して次回から自動適用する」にチェックを入れておくと、<br>次回から同じパターンは自動修正されます（<a href="#learning">詳しくはこちら</a>）</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <p><strong>「保存」を押す</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">☑️</span> 確認済みにする</div>
+        <p>内容が正しい商品のチェックボックスにチェックを入れて、<br>「<strong>確認済みにする</strong>」ボタンを押します。</p>
+        <p style="color:#666; font-size:14px;">確認済みの商品だけがスプレッドシート・カレンダーに同期されます。</p>
+    </div>
+</div>
+
+
+<!-- ==================== 4. 同期 ==================== -->
+<div class="section" id="sync">
+    <div class="section-header">
+        <div class="section-icon section-icon-green">📤</div>
+        <h2>スプレッドシート・カレンダー同期</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">📊</span> 基本は自動同期 — ボタンを押す必要はありません</div>
+        <p>商品を「確認済み」にすると、<strong>自動でスプレッドシートとカレンダーに反映されます。</strong></p>
+        <p>さらに、10分おきにバックグラウンドでも自動同期が走るので、万が一漏れがあっても自動で追加されます。</p>
+
+        <div class="box box-success">
+            <span class="box-icon">✅</span>
+            <div class="box-content"><p>同じ商品が二重に書き込まれることはありません。一度同期した商品には「同期済み」マークがつきます。</p></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">🔗</span> スプレッドシートから元メールにワンタップで飛べます</div>
+        <p>同期された商品データの一番右の列（P列）に<strong>「元メール」</strong>というリンクがあります。</p>
+        <p>クリックすると、その商品情報が記載されていた<strong>元のGmailが直接開きます。</strong></p>
+
+        <div class="box box-info">
+            <span class="box-icon">💡</span>
+            <div class="box-content">
+                <p><strong>「この商品の発注書はどのメールだっけ？」</strong>と探す必要がなくなります。<br>
+                スプレッドシートのリンクからワンタップでGmailの該当メールに飛べます。</p>
+            </div>
+        </div>
+
+        <h3 style="border:none; padding:0; margin:20px 0 12px; font-size:16px;">スプレッドシートの列構成（16列）</h3>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; font-size:13px; border-collapse:collapse; margin-bottom:8px;">
+                <tr style="background:#f8fafc;">
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">A: JANコード</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">B: 商品名</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">C: シリーズ名</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">D: 取引先</td>
+                </tr>
+                <tr>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">E: 発売日</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">F: 上代</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">G: 掛率</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">H: 下代</td>
+                </tr>
+                <tr style="background:#f8fafc;">
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">I: カートン入数</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">J: 単位</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">K: 種別</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">L: 発注締切</td>
+                </tr>
+                <tr>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">M: 発注数</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">N: 総額</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb;">O: 備考</td>
+                    <td style="padding:6px 10px; border:1px solid #e5e7eb; background:#eef2ff; font-weight:700;">P: 元メール</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">🔘</span> 手動同期ボタンもあります</div>
+        <p>「今すぐ確実に反映したい」というときは、商品画面の上部にある<br>
+        <span class="mock-btn mock-btn-green">シート同期</span> <span class="mock-btn mock-btn-green" style="background:#7c3aed;">カレンダー同期</span> ボタンを押してもOKです。</p>
+    </div>
+</div>
+
+
+<!-- ==================== 5. 学習機能 ==================== -->
+<div class="section" id="learning">
+    <div class="section-header">
+        <div class="section-icon section-icon-purple">🧠</div>
+        <h2>学習機能（自動修正）</h2>
+    </div>
+
+    <div class="card">
+        <p style="font-size:17px; margin-bottom:20px;">あなたが修正した内容をシステムが覚えて、<strong>次回から同じミスを自動で直してくれる機能</strong>です。<br>使えば使うほど、修正の手間が減っていきます。</p>
+
+        <h3 style="border:none; padding:0; margin: 24px 0 16px;">こんなことを学習します</h3>
+
+        <div style="display:grid; gap:12px; margin-bottom: 20px;">
+            <div class="box box-info" style="margin:0;">
+                <span class="box-icon">🔢</span>
+                <div class="box-content">
+                    <p><strong>JANコードのハイフン・スペース除去</strong></p>
+                    <p style="font-size:14px;">例: 「4549660<span style="color:red;">-</span>123456」→「4549660123456」に直すと、<br>次回から同じ取引先のJANコードは自動でハイフンが消えます</p>
+                </div>
+            </div>
+            <div class="box box-info" style="margin:0;">
+                <span class="box-icon">📦</span>
+                <div class="box-content">
+                    <p><strong>単位の自動判定</strong></p>
+                    <p style="font-size:14px;">例: 商品名に「BOX」が入っている商品の単位を「box」に直すと、<br>次回から「BOX」を含む商品は自動で「box」になります</p>
+                </div>
+            </div>
+            <div class="box box-info" style="margin:0;">
+                <span class="box-icon">🏷️</span>
+                <div class="box-content">
+                    <p><strong>商品種別の判定</strong></p>
+                    <p style="font-size:14px;">種別を修正すると、商品名のパターンから次回以降も自動判定されます</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="border:none; padding:0; margin: 24px 0 16px;">学習のやり方</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content"><p>商品を編集して正しい値を入力する</p></div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content"><p><strong>「この修正を学習して次回から自動適用する」にチェックを入れる</strong></p></div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content"><p>保存する → 完了！次回以降は自動で修正されます</p></div>
+            </div>
+        </div>
+
+        <div class="box box-warn">
+            <span class="box-icon">⚠️</span>
+            <div class="box-content">
+                <p><strong>チェックを入れなければ、その場限りの修正です。</strong><br>
+                繰り返し発生するパターンのときだけ学習させてください。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== 6. 設定 ==================== -->
+<div class="section" id="settings">
+    <div class="section-header">
+        <div class="section-icon section-icon-orange">⚙️</div>
+        <h2>設定の変更</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">🔀</span> 動作モードを切り替える</div>
+        <p>「<strong>設定</strong>」→「<strong>システム</strong>」タブの一番上で切り替えられます。</p>
+
+        <div style="display:grid; gap:12px; margin: 16px 0;">
+            <div class="box box-success" style="margin:0;">
+                <span class="box-icon">🟢</span>
+                <div class="box-content">
+                    <p><strong>全自動モード（おすすめ）</strong></p>
+                    <p style="font-size:14px;">データが揃っている商品は自動でスプレッドシート・カレンダーに反映。<br>
+                    問題がある商品だけDiscordで通知されるので、そこだけ直せばOK。</p>
+                </div>
+            </div>
+            <div class="box box-info" style="margin:0;">
+                <span class="box-icon">🔵</span>
+                <div class="box-content">
+                    <p><strong>確認モード</strong></p>
+                    <p style="font-size:14px;">すべての商品を手動で確認してから同期。<br>
+                    使い始めの時期や、特に正確性を重視したいときに。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-info">
+            <span class="box-icon">💡</span>
+            <div class="box-content"><p>最初は「確認モード」で使って、慣れてきたら「全自動モード」に切り替えるのがおすすめです。</p></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">🏢</span> 取引先を追加・変更する</div>
+        <p>新しい仕入先からメールが届くようになったら、取引先を追加します。</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content"><p>「<strong>設定</strong>」→「<strong>取引先管理</strong>」タブを開く</p></div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content"><p>「<strong>取引先を追加</strong>」ボタンを押す</p></div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <p>以下を入力して保存します：</p>
+                    <ul style="margin-top:8px;">
+                        <li><strong>取引先名</strong> — 例: ○○商事</li>
+                        <li><strong>メールドメイン</strong> — メールアドレスの @ 以降の部分（例: example.co.jp）</li>
+                        <li><strong>添付ファイル種別</strong> — 「excel」「pdf」「html」のどれか</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-info">
+            <span class="box-icon">💡</span>
+            <div class="box-content"><p>追加後、次のメール取得から自動で分類されるようになります。</p></div>
+        </div>
+
+        <div class="box box-warn">
+            <span class="box-icon">⚠️</span>
+            <div class="box-content"><p>添付ファイルの形式が Excel / PDF / HTML 以外の場合は、福田までご連絡ください。</p></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="card-title-icon">🔌</span> Google再認証</div>
+        <p>まれにGoogleの認証が切れることがあります（数ヶ月に一度程度）。</p>
+        <p>その場合は「<strong>設定</strong>」→「<strong>システム</strong>」タブの「<strong>Googleアカウント連携</strong>」ボタンを押して、Googleアカウントで再ログインしてください。</p>
+
+        <div class="box box-info">
+            <span class="box-icon">💡</span>
+            <div class="box-content">
+                <p>「このアプリはGoogleで確認されていません」という警告が出た場合は、<br>
+                左下の「<strong>詳細</strong>」→「<strong>（安全でないページ）に移動</strong>」でOKです。正常な表示です。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== 7. 困ったときは ==================== -->
+<div class="section" id="trouble">
+    <div class="section-header">
+        <div class="section-icon section-icon-orange">🔧</div>
+        <h2>困ったときは</h2>
+    </div>
+
+    <p style="margin-bottom:20px; color:#666;">タップすると解決方法が表示されます。</p>
+
+    <h3>起動・画面が開けない</h3>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">💻</span>
+            管理画面（localhost:8080）が開けない
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p><strong>システムが停止しています。</strong>以下の手順で再起動してください：</p>
+            <ol>
+                <li>システムフォルダ内の <strong>start.command</strong> をダブルクリック</li>
+                <li>ターミナル（黒い画面）が開いて「起動完了」と出るまで待つ（10秒ほど）</li>
+                <li>ブラウザで <strong>http://localhost:8080</strong> にアクセス</li>
+            </ol>
+            <div class="box box-info" style="margin-top:12px;">
+                <span class="box-icon">💡</span>
+                <div class="box-content"><p>通常はMac起動時に自動で立ち上がります。何度も止まる場合は福田までご連絡ください。</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">🔄</span>
+            Macを再起動したらシステムが動いていない
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p><strong>start.command</strong> をダブルクリックして再起動してください。</p>
+            <p>macOSのアップデート後に自動起動設定がリセットされることがあります。繰り返す場合は福田にご連絡ください。</p>
+        </div>
+    </div>
+
+    <h3>メールが取得されない</h3>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">📧</span>
+            メール一覧に新しいメールが出てこない
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p>以下を順に確認してください：</p>
+            <ol>
+                <li><strong>「メール」画面の「メール同期」ボタンを押す</strong> → 手動で今すぐ取得できます</li>
+                <li>それでも増えない → <strong>「設定」→「システム」タブで認証ステータスを確認</strong><br>
+                    「未接続」なら「Googleアカウント連携」で再ログインしてください</li>
+                <li>認証OKなのに増えない → まだ新着メールが届いていないだけかもしれません（5分おきに自動取得）</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">❓</span>
+            メールが「その他」「未分類」になる
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p><strong>送信元アドレスが、登録した取引先と一致していません。</strong></p>
+            <ol>
+                <li>「メール」画面でそのメールの送信元アドレスを確認する</li>
+                <li>「設定」→「取引先管理」で、該当する取引先のドメインが合っているか確認する</li>
+                <li>新しい取引先なら「取引先を追加」で登録する</li>
+            </ol>
+            <p style="color:#666; font-size:14px;">取引先がメールアドレスを変更した場合にもこの症状が出ます。</p>
+        </div>
+    </div>
+
+    <h3>商品データがおかしい</h3>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">0️⃣</span>
+            商品が1件も抽出されない
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p>考えられる原因：</p>
+            <ol>
+                <li><strong>メールに添付ファイルがない</strong>（テキストのみのメール）</li>
+                <li><strong>取引先の「添付ファイル種別」が間違っている</strong>（例: Excel添付なのに「pdf」に設定）<br>→ 設定画面で確認・修正してください</li>
+                <li><strong>メール種類が「新商品案内」「減数」以外に分類された</strong><br>→ 「問い合わせ」「その他」になったメールは自動解析されません。「メール」画面でそのメールの「解析」ボタンを押して手動解析を試してください</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">➖</span>
+            JANコードにハイフンやスペースが入っている
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <ol>
+                <li>商品をクリックして編集画面を開く</li>
+                <li>JANコードからハイフン・スペースを消して正しい値を入力</li>
+                <li><strong>「この修正を学習して次回から自動適用する」にチェック</strong></li>
+                <li>保存する</li>
+            </ol>
+            <div class="box box-success" style="margin-top:8px;">
+                <span class="box-icon">✅</span>
+                <div class="box-content"><p><strong>一度学習させれば、同じ取引先の全商品に適用されます。</strong>何度も直す必要はありません。</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">📦</span>
+            単位（BOX / パック / カートン）が正しくない
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <ol>
+                <li>商品の編集画面で正しい単位を入力</li>
+                <li>「この修正を学習して次回から自動適用する」にチェックして保存</li>
+            </ol>
+            <p style="color:#666; font-size:14px;">商品名に含まれるキーワード（例: 「BOX」）から単位を判定するルールが自動で作られます。</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">❌</span>
+            価格や発売日が空欄になっている
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p>添付ファイルのレイアウトが想定と異なるか、記載がないのかもしれません。</p>
+            <ol>
+                <li>元のメール添付ファイルを確認して、手動で正しい値を入力してください</li>
+                <li>オレンジ色の行と「⚠」マークで不完全データは一目でわかります</li>
+            </ol>
+            <p style="color:#666; font-size:14px;">同じパターンが何度も繰り返される場合は、福田までご連絡ください。</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">👯</span>
+            同じ商品が重複して登録されている
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p>JANコードが空の場合、重複チェックができないため起きることがあります。<br>
+            JANコードを入力すれば、次回からは同じ商品の重複登録は防止されます。</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">📄</span>
+            取引先のExcelフォーマットが変わったらしく、データが全部ずれている
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p>取引先が列の並びやヘッダー名を変更した可能性があります。</p>
+            <ol>
+                <li>まず手動で商品データを修正して当面の対応をしてください</li>
+                <li><strong>福田までご連絡ください</strong> — 解析プログラムの調整が必要です</li>
+            </ol>
+            <div class="box box-warn" style="margin-top:8px;">
+                <span class="box-icon">⚠️</span>
+                <div class="box-content"><p>これは数少ない「福田の対応が必要なケース」です。お手数ですがご連絡ください。</p></div>
+            </div>
+        </div>
+    </div>
+
+    <h3>スプレッドシート・カレンダー</h3>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">📊</span>
+            同期したのにスプレッドシートにデータがない
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <ol>
+                <li><strong>商品が「確認済み」になっているか確認</strong> — 確認済みの商品のみ同期されます</li>
+                <li><strong>既に「同期済み」マークがついていないか確認</strong> — 一度同期した商品は再書き込みされません</li>
+                <li><strong>スプレッドシートの最初のタブを確認</strong> — 一番左のシートに書き込まれます</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">↔️</span>
+            スプレッドシートの列がずれている
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <p>もう一度「スプレッドシートに同期」ボタンを押してください。ヘッダー行が壊れていれば自動で修復します。</p>
+            <p style="color:#666; font-size:14px;">現在のレイアウトはA〜P列の16列構成です。P列の「元メール」はGmailへのリンクです。</p>
+            <div class="box box-warn" style="margin-top:8px;">
+                <span class="box-icon">⚠️</span>
+                <div class="box-content"><p><strong>1行目（ヘッダー行）は手動で編集しないでください。</strong>システムがヘッダーを基準にデータを書き込んでいます。</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">📅</span>
+            カレンダーに発売日が登録されない
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <ol>
+                <li><strong>商品に発売日が入っているか確認</strong> — 空欄だとカレンダーに登録できません</li>
+                <li><strong>商品が「確認済み」になっているか確認</strong></li>
+                <li>既に登録済みの場合は重複登録されません</li>
+            </ol>
+        </div>
+    </div>
+
+    <h3>Discord通知</h3>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-icon">🔔</span>
+            Discord通知が来ない
+            <span class="faq-q-arrow">▼</span>
+        </div>
+        <div class="faq-a">
+            <ol>
+                <li>「設定」→「システム」タブの「Discord通知テスト」ボタンでテスト送信してみる</li>
+                <li>テスト通知が届けば正常です（対象イベントがなかっただけ）</li>
+                <li>届かない場合 → DiscordのWebhookが削除されている可能性があります。Discordの「サーバー設定」→「連携サービス」→「ウェブフック」で確認してください</li>
+            </ol>
+            <p style="color:#666; font-size:14px;">締切リマインダーは毎朝9時に送信されますが、対象商品（締切1日前・3日前・7日前）がなければ届きません。</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== 8. 緊急時 ==================== -->
+<div class="section" id="emergency">
+    <div class="section-header">
+        <div class="section-icon section-icon-red">🆘</div>
+        <h2>緊急時の対応</h2>
+    </div>
+
+    <div class="emergency-grid">
+        <div class="emergency-card ec-red">
+            <h4>🚨 福田に連絡してください</h4>
+            <ul>
+                <li>英語のエラー（ModuleNotFoundError 等）が出て起動しない</li>
+                <li>macOSアップデート後に動かない</li>
+                <li>取引先のファイル形式が大幅に変わった</li>
+                <li>Excel/PDF/HTML以外の添付ファイルへの対応</li>
+                <li>スプレッドシートやカレンダーのIDを変えたい</li>
+            </ul>
+        </div>
+        <div class="emergency-card ec-green">
+            <h4>✅ 自分で対処できます</h4>
+            <ul>
+                <li>商品データの修正 → 編集＋学習機能</li>
+                <li>取引先の追加・編集 → 設定画面</li>
+                <li>Google再認証 → 設定画面</li>
+                <li>システム再起動 → start.command</li>
+                <li>手動メール取得 → メール画面のボタン</li>
+                <li>Discord Webhook再設定 → Discord設定</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="contact-bar">
+        <span class="contact-bar-icon">📞</span>
+        <div class="contact-bar-text">
+            <strong>株式会社Lib 福田龍馬</strong>
+            <p>困ったことがあれば、いつでもお気軽にご連絡ください。</p>
+        </div>
+    </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function toggleFaq(el) {
+    // 他のFAQは閉じない（複数開けるようにする）
+    el.classList.toggle('open');
+    const answer = el.nextElementSibling;
+    answer.classList.toggle('open');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hash) {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+            setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        }
+    }
+});
+</script>
+</body>
+</html>
